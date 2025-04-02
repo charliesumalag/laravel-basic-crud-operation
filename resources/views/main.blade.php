@@ -3,10 +3,15 @@
 <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center h-screen w-full">
     <h2 class="text-2xl font-bold mb-4 text-center">Task Manager</h2>
 
-    <div class="flex gap-2 mb-4 w-xl">
-        <input id="taskInput" type="text" placeholder="Enter a task..." class="border p-2 flex-1 rounded">
-        <button onclick="addTask()" class="bg-blue-500 text-white px-4 py-2 rounded">Add</button>
-    </div>
+    @if (session()->has('message'))
+        <p class="text-green-800 mb-3 rounded text-sm">{{session('message')}}</p>
+
+    @endif
+    <form method="POST" action="{{ route('task.store')}}" class="flex gap-2 mb-4 w-xl">
+        @csrf
+        <input id="taskInput" type="text" placeholder="Enter a task..." class="border p-2 flex-1 rounded" name="task">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add</button>
+    </form>
 
     <ul id="taskList" class="space-y-2 text-left w-xl">
         @foreach ($tasks as $task)

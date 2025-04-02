@@ -16,4 +16,13 @@ class TaskController extends Controller
             'tasks' => Task::latest()->paginate(10),
         ]);
     }
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'task' => 'required',
+        ]);
+
+        Task::create(['taskname' => $validated['task']]);
+        return redirect('/')->with('message', 'Task added successfully');
+    }
 }
