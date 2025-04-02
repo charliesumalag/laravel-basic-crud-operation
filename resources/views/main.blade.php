@@ -1,11 +1,12 @@
 @extends('layout')
 @section('content')
-<div class="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center h-screen w-full">
+<div class="bg-white p-6 rounded-lg shadow-lg flex flex-col  items-center h-screen w-full">
     <h2 class="text-2xl font-bold mb-4 text-center">Task Manager</h2>
 
     @if (session()->has('message'))
-        <p class="text-green-800 mb-3 rounded text-sm">{{session('message')}}</p>
-
+        <div x-data="{show: true}" x-init="setTimeout(()=> show = false, 3000)" x-show="show">
+            <p class="text-green-800 mb-3 rounded text-sm">{{session('message')}}</p>
+        </div>
     @endif
     <form method="POST" action="{{ route('task.store')}}" class="flex gap-2 mb-4 w-xl">
         @csrf
@@ -30,7 +31,10 @@
             </li>
         @endforeach
     </ul>
-
-
+    <div class="mt-6 flex justify-between items-center w-xl text-sm">
+        <div class="flex-1 text-sm">
+            {{ $tasks->links() }} <!-- Pagination Links -->
+        </div>
+    </div>
 </div>
 @endsection
