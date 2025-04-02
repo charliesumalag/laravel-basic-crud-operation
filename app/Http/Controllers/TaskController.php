@@ -25,4 +25,29 @@ class TaskController extends Controller
         Task::create(['taskname' => $validated['task']]);
         return redirect('/')->with('message', 'Task added successfully');
     }
+
+    public function destroy(Task $task)
+    {
+        $task->delete();
+        return redirect('/')->with('message', 'Task deleted successfully');
+    }
+
+    public function edit(Task $task)
+    {
+        return view('edit', [
+            'task' => $task,
+            'tasks' => Task::latest()->paginate(10)
+        ]);
+    }
+
+    public function update(Request $request, Task $task)
+    {
+
+        $validated = $request->validate([
+            'task' => 'required',
+        ]);
+
+        $task->update(['taskname' => $validated['task']]);
+        return redirect('/')->with('message', 'Task updated successfully');
+    }
 }
